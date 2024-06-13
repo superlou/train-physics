@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://50klebuey0x7"]
+[gd_scene load_steps=13 format=3 uid="uid://50klebuey0x7"]
 
 [ext_resource type="PackedScene" uid="uid://dff0gihkgr7g8" path="res://player.tscn" id="1_7nlw8"]
 [ext_resource type="Shader" path="res://best_darn_grid.gdshader" id="2_ipy3m"]
@@ -44,6 +44,15 @@ shader_parameter/in_dashed_scale_y = 0.3
 shader_parameter/in_dashed_count_x = 6.0
 shader_parameter/in_dashed_count_y = 6.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_p608u"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_q7o4i"]
+size = Vector3(2, 1, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c8s0v"]
+albedo_color = Color(0.716068, 0.353722, 0.335237, 1)
+
 [node name="Main" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -54,7 +63,7 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_7nlw8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5164, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.42443, 0)
 
 [node name="Ground" type="StaticBody3D" parent="."]
 
@@ -69,3 +78,14 @@ surface_material_override/0 = SubResource("ShaderMaterial_1jbg0")
 
 [node name="Train" parent="." instance=ExtResource("3_4qavu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18148, 0)
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="Train"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.791251, 0)
+sync_to_physics = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Train/AnimatableBody3D"]
+shape = SubResource("BoxShape3D_p608u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Train/AnimatableBody3D"]
+mesh = SubResource("BoxMesh_q7o4i")
+surface_material_override/0 = SubResource("StandardMaterial3D_c8s0v")

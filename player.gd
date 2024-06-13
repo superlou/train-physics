@@ -58,6 +58,7 @@ func _physics_process(delta):
 
 	velocity = _walk(delta, speed) +_gravity(delta) + _jump(delta)
 	move_and_slide()
+	print(is_on_floor())
 
 
 func _walk(delta: float, speed: float) -> Vector3:
