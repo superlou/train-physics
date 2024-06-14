@@ -51,7 +51,6 @@ func release_mouse() -> void:
 
 
 var last_platform_vel := Vector3.ZERO
-var was_on_floor := false
 
 func _physics_process(delta):
 	var speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed

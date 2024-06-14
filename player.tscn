@@ -7,7 +7,6 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_h05j0"]
 
 [node name="Player" type="CharacterBody3D"]
-platform_on_leave = 2
 script = ExtResource("1_dwx2k")
 walk_speed = null
 sprint_speed = null
