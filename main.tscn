@@ -63,7 +63,12 @@ transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_7nlw8")]
+process_physics_priority = 5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.42443, 0)
+walk_speed = null
+sprint_speed = null
+acceleration = null
+jump_height = null
 
 [node name="Ground" type="StaticBody3D" parent="."]
 

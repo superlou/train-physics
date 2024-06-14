@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 signal died(player)
 
-@export var walk_speed := 1.0 		# m/s
-@export var sprint_speed := 2.0 	# m/s
+@export var walk_speed := 1.5 		# m/s
+@export var sprint_speed := 4.0 	# m/s
 @export var acceleration := 10.0 	# m/s^2
 @export var jump_height := 1.0 		# m
 
@@ -51,14 +51,20 @@ func release_mouse() -> void:
 
 
 var last_platform_vel := Vector3.ZERO
-
+var was_on_floor := false
 
 func _physics_process(delta):
 	var speed = sprint_speed if Input.is_action_pressed("sprint") else walk_speed
 
 	velocity = _walk(delta, speed) +_gravity(delta) + _jump(delta)
+	if not is_on_floor():
+		velocity += last_platform_vel
+
 	move_and_slide()
-	print(is_on_floor())
+
+	if is_on_floor():
+		last_platform_vel = get_platform_velocity()
+
 
 
 func _walk(delta: float, speed: float) -> Vector3:
@@ -78,21 +84,15 @@ func _gravity(delta: float) -> Vector3:
 	return grav_vel
 
 
-var platform_vel_at_jump := Vector3.ZERO
-
-
 func _jump(delta: float) -> Vector3:
 	if jumping:
 		if is_on_floor():
-			platform_vel_at_jump = get_platform_velocity()
-			jump_vel = Vector3(0, sqrt(4 * jump_height * gravity), 0) + platform_vel_at_jump
+			jump_vel = Vector3(0, sqrt(4 * jump_height * gravity), 0)
 		
 		jumping = false
-		# Subtract off ground velocity for the first frame of the jump, otherwise
-		# it will be double-counted.
-		return jump_vel - platform_vel_at_jump
+		return jump_vel
 	
-	jump_vel = Vector3.ZERO if is_on_floor() else jump_vel.move_toward(Vector3.DOWN + platform_vel_at_jump, gravity * delta)
+	jump_vel = Vector3.ZERO if is_on_floor() else jump_vel.move_toward(Vector3.DOWN, gravity * delta)
 	return jump_vel
 
 
